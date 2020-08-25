@@ -10,6 +10,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -18,23 +19,23 @@ public class OrderItemController {
     @Autowired
     private IOrderItemService orderItemService;
 
-    @PostMapping("/createOrderItem")
-    public ResponseEntity<String> createOrderItem(@RequestBody @Valid  OrderItem orderItem) {
+    @PostMapping("/createOrderItems")
+    public ResponseEntity<List<Long>> createOrderItems(@RequestBody @Valid List<OrderItem> orderItems) {
 
-        long orderId = orderItemService.createOrder(orderItem);
-        if (Objects.isNull(orderId))
-            return new ResponseEntity<>("Order could not be placed", HttpStatus.INTERNAL_SERVER_ERROR);
+        List<Long> orderIds = orderItemService.createOrderItems(orderItems);
+        if (Objects.isNull(orderIds))
+            return new ResponseEntity("Order could not be placed", HttpStatus.INTERNAL_SERVER_ERROR);
         else
-            return new ResponseEntity<>("" + orderId, HttpStatus.CREATED);
+            return new ResponseEntity<>(orderIds, HttpStatus.CREATED);
 
     }
 
-    @GetMapping("/getOrderItem/{orderId}")
-    public ResponseEntity<OrderItem> getOrderItem(@PathVariable("orderId") @NonNull Long orderId)
+    @PostMapping("/getOrderItems")
+    public ResponseEntity<List<OrderItem>> getOrderItems(@NonNull @RequestBody List<Long> orderIds)
             throws OrderItemNotFoundException {
 
-        OrderItem orderItem = orderItemService.getOrderItem(orderId);
-        return new ResponseEntity<>(orderItem, HttpStatus.OK);
+        List<OrderItem> orderItems = orderItemService.getOrderItems(orderIds);
+        return new ResponseEntity(orderItems, HttpStatus.OK);
 
     }
 
