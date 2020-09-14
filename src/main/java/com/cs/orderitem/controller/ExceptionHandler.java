@@ -10,8 +10,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionCOntroller extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(value
+public class ExceptionHandler extends ResponseEntityExceptionHandler {
+    @org.springframework.web.bind.annotation.ExceptionHandler(value
             = {OrderItemNotFoundException.class})
     protected ResponseEntity<String> handle(
             OrderItemNotFoundException ex, WebRequest request) {
